@@ -11,11 +11,12 @@ const List = () => {
   const navigation = useNavigation();
 
   const addTodo = async () => {
-    const doc = addDoc(collection(FIRESTORE_DB, "todos"), {
-      title: "I am a test",
+    const doc = await addDoc(collection(FIRESTORE_DB, "todos"), {
+      title: todo,
       done: false,
     });
     console.log("~ file: List.tsx:12 ~ addTodo ~doc:", doc);
+    setTodo("");
   };
 
   return (
