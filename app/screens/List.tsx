@@ -8,6 +8,7 @@ const List = () => {
   const navigation = useNavigation();
 
   const addTodo = async () => {
+    console.log("ADD");
     const doc = addDoc(collection(FIRESTORE_DB, "todos"), {
       title: "I am a test",
       done: false,
@@ -17,7 +18,7 @@ const List = () => {
 
   return (
     <View>
-      <Button onPress={() => addTodo} title="Add Todo" />
+      <Button onPress={() => addTodo()} title="Add Todo" />
     </View>
   );
 };
