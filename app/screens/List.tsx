@@ -1,9 +1,17 @@
-import { Text, View, Button, StyleSheet, FlatList } from "react-native";
+import {
+  Text,
+  View,
+  Button,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { FIRESTORE_DB } from "../../firebaseConfig";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { TextInput } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export interface Todo {
   title: string;
@@ -44,7 +52,18 @@ const List = () => {
   };
 
   const renderTodo = ({ item }: { item: Todo }) => {
-    return <Text>{item.title}</Text>;
+    const toggleDone = async () => {};
+    const deleteItem = async () => {};
+
+    return (
+      <View>
+        <TouchableOpacity onPress={toggleDone}>
+          {item.done && <Ionicons name="md-checkmark-circle" />}
+          {!item.done && <Ionicons name="md-checkmark-circle" />}
+          <Text>{item.title}</Text>
+        </TouchableOpacity>
+      </View>
+    );
   };
 
   return (
