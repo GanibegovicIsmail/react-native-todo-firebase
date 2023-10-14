@@ -12,6 +12,7 @@ import { FIRESTORE_DB } from "../../firebaseConfig";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { TextInput } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { Entypo } from "@expo/vector-icons/";
 
 export interface Todo {
   title: string;
@@ -56,12 +57,18 @@ const List = () => {
     const deleteItem = async () => {};
 
     return (
-      <View>
-        <TouchableOpacity onPress={toggleDone}>
+      <View style={styles.todoContainer}>
+        <TouchableOpacity onPress={toggleDone} style={styles.todo}>
           {item.done && <Ionicons name="md-checkmark-circle" />}
-          {!item.done && <Ionicons name="md-checkmark-circle" />}
-          <Text>{item.title}</Text>
+          {!item.done && <Entypo name="circle" size={24} color="black" />}
+          <Text style={styles.todoText}>{item.title}</Text>
         </TouchableOpacity>
+        <Ionicons
+          name="trash-bin-outline"
+          size={24}
+          color="red"
+          onPress={deleteItem}
+        />
       </View>
     );
   };
@@ -114,6 +121,22 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 10,
     backgroundColor: "white",
+  },
+  todoContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    padding: 10,
+    marginVertical: 4,
+  },
+  todoText: {
+    flex: 1,
+    paddingHorizontal: 4,
+  },
+  todo: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
   },
 });
 
