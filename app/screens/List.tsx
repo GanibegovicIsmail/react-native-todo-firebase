@@ -1,10 +1,15 @@
-import { Text, View, Button, StyleSheet } from "react-native";
+import { Text, View, Button, StyleSheet, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { FIRESTORE_DB } from "../../firebaseConfig";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { TextInput } from "react-native";
 
+export interface Todo {
+  title: string;
+  done: boolean;
+  id: string;
+}
 const List = () => {
   const [todos, setTodos] = useState<any[]>([]);
   const [todo, setTodo] = useState("");
@@ -15,13 +20,12 @@ const List = () => {
 
     const subsriber = onSnapshot(todoRef, {
       next: (snapshot) => {
-        const todos: any[] = [];
+        const todos: Todo[] = [];
         snapshot.docs.forEach((doc) => {
-          console.log("UPDATED");
           todos.push({
             id: doc.id,
             ...doc.data(),
-          });
+          } as Todo);
         });
         setTodos(todos);
       },
@@ -39,6 +43,10 @@ const List = () => {
     setTodo("");
   };
 
+  const renderTodo = ({ item }: { item: Todo }) => {
+    return <Text>{item.title}</Text>;
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.form}>
@@ -54,11 +62,20 @@ const List = () => {
           disabled={todo === ""}
         />
       </View>
-      <View>
-        {todos.map((todo) => (
-          <Text key={todo.id}>{todo.title}</Text>
-        ))}
-      </View>
+      {todos.length > 0 && (
+        // <View>
+        //   {todos.map((todo) => (
+        //     <Text key={todo.id}>{todo.title}</Text>
+        //   ))}
+        // </View>
+        <View>
+          <FlatList
+            data={todos}
+            renderItem={renderTodo}
+            keyExtractor={(todo: Todo) => todo.id}
+          />
+        </View>
+      )}
     </View>
   );
 };
