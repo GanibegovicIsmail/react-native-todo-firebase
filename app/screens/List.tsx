@@ -13,6 +13,7 @@ import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { TextInput } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Entypo } from "@expo/vector-icons/";
+import { doc } from "firebase/firestore";
 
 export interface Todo {
   title: string;
@@ -43,16 +44,26 @@ const List = () => {
     return () => subsriber();
   }, []);
 
+  // const addTodo = async () => {
+  //   const doc = await addDoc(collection(FIRESTORE_DB, "todos"), {
+  //     title: todo,
+  //     done: false,
+  //   });
+  //   console.log("~ file: List.tsx:12 ~ addTodo ~doc:", doc);
+  //   setTodo("");
+  // };
+
   const addTodo = async () => {
     const doc = await addDoc(collection(FIRESTORE_DB, "todos"), {
       title: todo,
       done: false,
     });
-    console.log("~ file: List.tsx:12 ~ addTodo ~doc:", doc);
     setTodo("");
   };
 
   const renderTodo = ({ item }: { item: Todo }) => {
+    const ref = doc(FIRESTORE_DB, `todos/${item.id}`);
+
     const toggleDone = async () => {};
     const deleteItem = async () => {};
 
@@ -117,7 +128,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     height: 40,
-    borderWidht: 1,
+    borderWidth: 1,
     borderRadius: 4,
     padding: 10,
     backgroundColor: "white",
